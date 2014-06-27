@@ -6,4 +6,6 @@ This is the test project for mina.
 
 ## run
 
-mina setup
+- `mina setup`
+- set config files
+- `mina deploy`
