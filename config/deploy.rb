@@ -9,11 +9,11 @@ require 'mina/rvm'    # for rvm support. (http://rvm.io)
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-dir = File.expand_path(File.dirname(__FILE__))
+project_path = File.expand_path(File.dirname(File.dirname(__FILE__)))
 
 set :domain, 'localhost'
-set :deploy_to, File.join(dir, '../../deploy')
-set :repository, "git://localhost/#{dir}"
+set :deploy_to, File.join(project_path, '../deploy')
+set :repository, "localhost:#{project_path}"
 set :branch, 'master'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
@@ -57,8 +57,6 @@ task :deploy => :environment do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
-    invoke :'rails:db_migrate'
-    invoke :'rails:assets_precompile'
 
     to :launch do
       queue "touch #{deploy_to}/tmp/restart.txt"
